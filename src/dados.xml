@@ -1,0 +1,17 @@
+<dados>
+    <pessoa>
+        <id>1</id>
+        <nome>Biel</nome>
+        <idade>18</idade>
+    </pessoa>
+    <pessoa>
+        <id>2</id>
+        <nome>Aya</nome>
+        <idade>17</idade>
+    </pessoa>
+    <pessoa>
+        <id>3</id>
+        <nome>Kyo</nome>
+        <idade>15</idade>
+    </pessoa>
+</dados>
