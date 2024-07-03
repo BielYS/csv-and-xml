@@ -29,9 +29,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const csv_parser_1 = __importDefault(require("csv-parser"));
 const results = [];
+const isEmpty = (value) => {
+    return value === null || value === undefined || value.trim() === "";
+};
 fs.createReadStream("dados.csv")
     .pipe((0, csv_parser_1.default)())
-    .on("data", (data) => results.push(data))
+    .on("data", (data) => {
+    const filteredData = {};
+    for (const key in data) {
+        if (!isEmpty(data[key])) {
+            filteredData[key] = data[key];
+        }
+    }
+    results.push(filteredData);
+})
     .on("end", () => {
-    console.log(JSON.stringify(results, null, 2));
+    const jsonResult = JSON.stringify(results, null, 2);
+    console.log(jsonResult);
+    fs.writeFileSync("dadosCsv.json", jsonResult, "utf8");
+    console.log("File JSON created with success: data.json");
 });

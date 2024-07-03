@@ -25,11 +25,20 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const xml2js_1 = require("xml2js");
+const isEmpty = (value) => {
+    return value === null || value === undefined || (typeof value === 'string' && value.trim() === '');
+};
 const xmlData = fs.readFileSync("dados.xml", "utf8");
 (0, xml2js_1.parseStringPromise)(xmlData)
     .then((result) => {
-    console.log(JSON.stringify(result, null, 2));
+    const filteredResult = JSON.parse(JSON.stringify(result), (key, value) => {
+        return isEmpty(value) ? undefined : value;
+    });
+    const jsonResult = JSON.stringify(filteredResult, null, 2);
+    console.log(jsonResult);
+    fs.writeFileSync("dadosXml.json", jsonResult, "utf8");
+    console.log("File JSON created with success: dataXml.json");
 })
     .catch((err) => {
-    console.error(err);
+    console.error("Error by converting XML to JSON: ", err);
 });
